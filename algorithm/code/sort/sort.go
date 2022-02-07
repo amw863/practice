@@ -103,6 +103,13 @@ func ShellSort(s []int) []int {
 	return s
 }
 
+// MergeSort 分治递归
 func MergeSort(s []int) []int {
-	return s
+	if len(s) == 1 {
+		return s
+	}
+
+	m := len(s) / 2
+
+	return append()
 }
