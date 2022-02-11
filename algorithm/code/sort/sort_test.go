@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	given  = []int{}
-	wanted = []int{}
+	given  = []int{2,3,4,2,1,6,3,4,6,5, 7}
+	wanted = []int{1,2,2,3,4,5,6}
 )
 
 type data struct {
@@ -33,17 +33,24 @@ func TestSort(t *testing.T) {
 		assert.Equal(t, d.expected, SelectSort(d.given))
 		assert.Equal(t, d.expected, ShellSort(d.given))
 		assert.Equal(t, d.expected, MergeSort(d.given))
+		assert.Equal(t, d.expected, QuickSort(d.given))
 	}
 }
 
-func TestInsertSort(t *testing.T) { assert.Equal(t, wanted, InsertSort(given)) }
+func TestCountingSort(t *testing.T) { 
+     given  = []int{2,3,4,2,1,6,3,4,6,5, 7}
+     wanted = []int{1, 2, 2, 3, 3, 4, 4, 5, 6, 6, 7}
+    assert.Equal(t, wanted, CountingSort(given)) 
+}
 
+func TestQuickSort(t *testing.T) { assert.Equal(t, wanted, PQSort(given)) }
+func TestInsertSort(t *testing.T) { assert.Equal(t, wanted, InsertSort(given)) }
 func TestBubbleSortSort(t *testing.T) { assert.Equal(t, wanted, BubbleSort(given)) }
 
 func TestSelectSort(t *testing.T) { assert.Equal(t, wanted, SelectSort(given)) }
 
 func TestShellSort(t *testing.T) { assert.Equal(t, wanted, ShellSort(given)) }
-func TestMergeSort(t *testing.T) { assert.Equal(t, wanted, MergeSort(given)) }
+func TestMergeSort(t *testing.T) { assert.Equal(t, wanted, MSort(given)) }
 
 var s = utils.Shuffle(utils.NewSlice(10000))
 

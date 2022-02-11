@@ -14,4 +14,4 @@ package link
 // 题目四、删除链表倒数第n个结点
 // 题目五、求链表的中间结点
 // 环形链表: https://leetcode-cn.com/problems/linked-list-cycle/
-//合并k个排序链表: https://leetcode-cn.com/problems/merge-k-sorted-lists/
+// 合并k个排序链表: https://leetcode-cn.com/problems/merge-k-sorted-lists/

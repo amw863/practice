@@ -148,25 +148,98 @@ func merge(s1, s2 []int) []int {
 	return t
 }
 
+
 // QuickSort
 // 数组中任意找一个分割点, 大于分割点的放左侧，小于分割点的放右侧
 // 到最后一个停止
-// 6 2 4 5 3 1
-//
 func QuickSort(s []int) []int {
-	if len(s) < 2 {
-		return s
-	}
-	for {
-		// todo
-	}
-	return s
+	return quickSort(s, 0, len(s)-1)
 }
+
+func quickSort(s []int, left, right int) []int {
+    if (left > right) {
+        return s
+    }
+
+    m := partition(s, left, right)
+    quickSort(s, left, m-1)
+    quickSort(s, m+1, right)
+    return s
+}
+
+func partition(s []int, left, right int) int {
+    // 选首位置和最后一个位置
+    pivot := left
+    // 记录比pivot小的位置
+    index := pivot + 1
+
+    for i:=index;i<=right;i++ {
+        if s[i] < s[pivot] {
+            if(i != index) {
+                // 当某个值比pivot小，则把改值和index替换，此时index++
+                // 此处妙在index值也替换了, 记录位置也增加了
+                s[i], s[index] = s[index], s[i]
+            }
+            index++
+        }
+    }
+
+    // 此处为什么再替换一次, index - 1记录的是比pivot小的值
+    // 所以中间值为此时进行了替换所以是index-1
+    s[pivot], s[index -1] = s[index -1], s[pivot]
+    
+    return index -1
+}
+
+
+
+// 看懂不
+// 堆排序
+// 应用场景第K大数
+// 优先级队列
+func HeapSort(s []int) []int {
+    l := len(s)
+    buildMaxHeap(s, l)
+    for i := l-1;i>=0;i-- {
+        s[i], s[0] = s[0], s[i]
+        heapify(s, 0, l)
+    }
+
+    return s
+}
+
+func buildMaxHeap(s []int, l int) {
+    for i := l/2;i>=0;i++ {
+        heapify(s, i,l)
+    }
+}
+
+func heapify(s []int, i, l int) {
+    left := 2*i+1
+    right := 2*i+2
+
+    largest := i
+
+    if left < l && s[left] > s[largest] {
+        largest = left
+    }
+
+    if right < l && s[right] > s[largest] {
+        largest = right
+    }
+
+    if largest != i {
+        s[largest], s[i] = s[i], s[largest]
+        heapify(s, largest, l)
+    }
+}
+
 
 // 没看懂
 // Q1: 求无序数组第K大元素要求O(n)的时间复杂度
 // Q2: 10个300M的日志文件，文件中日志按照时间戳有序,希望合成一个有序。如果内存有限怎么处理?
 // 10 个句柄 内存大小无所谓了
+
 
 // BucketSort 如果给100w用户的年龄进行排序
 // 思路：将排序的数据放进有序的桶里，再对桶里进行排序【分桶+插入或者快排+归并】
@@ -182,12 +255,45 @@ func BucketSort(s []int) []int {
 // 思想：分桶排序的一种特殊情况，当分通的个数有限，全部分桶，省略桶内排序的耗时
 // 比如：高考排名 可以分0~900个桶
 // 前半部分还能看懂啥意思。后面的就看不懂了
-func CountingSort() {
+// 找出待排序中最大和最小值
+// 统计每个数出现的次数
+// 对所有的计次累加
+// 反向填充目标数据
+// 比较耗内存，不适合字母排序
+func CountingSort(s []int) []int {
+    var maxVal, minVal int
+    // 找出最大最小值
+    for i:=0;i<len(s);i++ {
+        if(s[i] > maxVal) {
+            maxVal = s[i]
+        }
 
+        if(s[i] < minVal) {
+            minVal = s[i]
+        }
+    }
+
+
+    s1 := make([]int, maxVal - minVal+1)
+    // 统计每个值出现的次数
+    for i:=0;i<len(s);i++ {
+        s1[s[i]]++
+    }
+//println(s1)
+    s2 := make([]int, 0, len(s))
+    for k, v := range s1 {
+        for i:=0;i<v;i++ {
+            s2 = append(s2, k)
+        }
+    }
+
+    return s2
 }
 
 // RadixSort
 // 数据比较特殊：如手机号排序，如果 a 的前面比 b 的前面几的位大则 后面的就不用比较了
+// 感觉是前缀排序
+// 本质是另一种分桶方式
 func RadixSort() {
 
 }
