@@ -9,6 +9,14 @@ import "fmt"
 // 完全二叉树定义：叶子节点都在最后两层，且除最后一层，其他层的节点都达到最大。最后一层的都靠左
 
 // 二叉树遍历,每个节点最多会访问两次，时间复杂度O(2n) = O(n)
+/*
+ * @Author : wb
+ * @Date : 2022/2/12 10:57 上午
+ */
+
+package tree
+
+// 遍历二叉树，层序遍历
 
 type Node struct {
 	Val   int
@@ -106,6 +114,34 @@ func findL(t *Node) int {
 }
 
 // 查找：类似二分
+func Insert(n *Node, v int) *Node {
+	if n == nil {
+		return &Node{
+			Val: v,
+		}
+	}
+
+	head := n
+	for n != nil {
+		if v > n.Val {
+			if n.Right == nil {
+				n.Right = &Node{Val: v}
+				return head
+			}
+
+			n = n.Right
+		} else {
+			if n.Left == nil {
+				n.Left = &Node{Val: v}
+				return head
+			}
+
+			n = n.Left
+		}
+	}
+
+	return head
+}
 func find(n *Node, v int) *Node {
 	if n == nil {
 		return nil
@@ -193,6 +229,13 @@ func delete(n *Node, v int) *Node {
 
 			p.Right = r
 			r = nil
+	for n != nil {
+		if n.Val == v {
+			return n
+		} else if n.Val > v {
+			n = n.Left
+		} else {
+			n = n.Right
 		}
 	}
 
